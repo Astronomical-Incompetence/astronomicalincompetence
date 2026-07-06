@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Astronomical Incompetence — Welcome to the Glitch</title>
+<meta name="description" content="Astronomical Incompetence — Hong Kong hard dance, distorted dubstep and raw electronica. Controlled aggression, precisely detonated.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --void: #08080a;
+    --void-2: #101014;
+    --void-3: #17171d;
+    --hazard: #d7ff1e;
+    --pink: #ff1f6d;
+    --cyan: #29f2ff;
+    --static: #ebe9e4;
+    --dim: #8d8d95;
+    --line: rgba(235,233,228,0.12);
+    --hazard-stripe: repeating-linear-gradient(135deg, var(--hazard) 0px, var(--hazard) 22px, #0a0a0a 22px, #0a0a0a 44px);
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--void);
+    color: var(--static);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.5;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  ::selection{ background: var(--hazard); color: #0a0a0a; }
+
+  a{ color: inherit; }
+
+  .mono{ font-family: 'JetBrains Mono', monospace; }
+
+  /* ---------- focus visibility ---------- */
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+  }
+
+  /* ---------- grain overlay ---------- */
+  .grain{
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+  }
+
+  /* ---------- scanlines ---------- */
+  .scanlines{
+    position: fixed;
+    inset: 0;
+    z-index: 91;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0px,
+      rgba(0,0,0,0.12) 1px,
+      rgba(0,0,0,0) 3px
+    );
+    opacity: 0.5;
+  }
+
+  /* ================= HAZARD MARQUEE ================= */
+  .hazard-strip{
+    background: var(--hazard-stripe);
+    overflow: hidden;
+    white-space: nowrap;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+  }
+  .hazard-strip .track{
+    display: inline-block;
+    padding: 8px 0;
+    animation: marquee 22s linear infinite;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: #0a0a0a;
+  }
+  .hazard-strip.rev .track{ animation-direction: reverse; }
+  .hazard-strip .track span{ padding: 0 1.2em; }
+
+  @keyframes marquee{
+    from{ transform: translateX(0); }
+    to{ transform: translateX(-50%); }
+  }
+
+  /* ================= HEADER / NAV ================= */
+  header.site{
+    position: relative;
+    z-index: 20;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px clamp(20px,5vw,64px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand-mark{
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    display:flex;
+    align-items:center;
+    gap: 10px;
+  }
+  .brand-mark .dot{
+    width: 9px; height:9px; background: var(--hazard);
+    animation: blink 1.6s steps(2) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0.15; } }
+
+  nav.site-links{
+    display:flex;
+    gap: clamp(16px, 3vw, 34px);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  nav.site-links a{
+    text-decoration:none;
+    color: var(--dim);
+    position:relative;
+    padding-bottom: 2px;
+    transition: color .15s ease;
+  }
+  nav.site-links a:hover{ color: var(--static); }
+  nav.site-links a::after{
+    content:"";
+    position:absolute; left:0; bottom:-4px;
+    width:0; height:2px; background: var(--hazard);
+    transition: width .2s ease;
+  }
+  nav.site-links a:hover::after{ width:100%; }
+
+  /* ================= HERO ================= */
+  .hero{
+    position: relative;
+    min-height: 92vh;
+    display:grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items:center;
+    padding: 40px clamp(20px,5vw,64px) 70px;
+    gap: 20px;
+    overflow: hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 60% 50% at 78% 20%, rgba(255,31,109,0.16), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 15% 85%, rgba(41,242,255,0.1), transparent 60%);
+    pointer-events:none;
+  }
+
+  .coords{
+    position:absolute;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+  }
+  .coords.tl{ top: 18px; left: clamp(20px,5vw,64px); }
+  .coords.br{ bottom: 18px; right: clamp(20px,5vw,64px); text-align:right; }
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    color: var(--hazard);
+    text-transform: uppercase;
+    display:flex; align-items:center; gap: 10px;
+    margin-bottom: 18px;
+  }
+  .eyebrow::before{
+    content:"";
+    width: 26px; height: 1px; background: var(--hazard);
+  }
+
+  .hero-copy{ position:relative; z-index: 2; }
+
+  .glitch-title{
+    position: relative;
+    font-family:'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: clamp(2.6rem, 7.4vw, 6.4rem);
+    line-height: 0.92;
+    letter-spacing: 0.01em;
+    margin: 0 0 22px;
+    color: var(--static);
+  }
+  .glitch-title .line{ display:block; }
+  .glitch-title .accent{ color: var(--hazard); }
+
+  .glitch-title span.glyph{
+    position:relative;
+    display:inline-block;
+  }
+  .glitch-title::before,
+  .glitch-title::after{
+    content: attr(data-text);
+    position:absolute; left:0; top:0;
+    width:100%;
+    overflow:hidden;
+    background: var(--void);
+  }
+  .glitch-title::before{
+    color: var(--pink);
+    animation: glitchTop 5s infinite linear;
+    clip-path: polygon(0 2%, 100% 2%, 100% 30%, 0 30%);
+  }
+  .glitch-title::after{
+    color: var(--cyan);
+    animation: glitchBot 5s infinite linear;
+    clip-path: polygon(0 60%, 100% 60%, 100% 92%, 0 92%);
+  }
+  @keyframes glitchTop{
+    0%, 89%, 100%{ transform: translate(0,0); opacity: 0; }
+    90%{ transform: translate(-6px,-2px); opacity: 0.85; }
+    92%{ transform: translate(5px,1px); opacity: 0.85; }
+    94%{ transform: translate(-3px,0); opacity: 0.85; }
+    96%{ opacity: 0; }
+  }
+  @keyframes glitchBot{
+    0%, 91%, 100%{ transform: translate(0,0); opacity: 0; }
+    92%{ transform: translate(6px,1px); opacity: 0.8; }
+    94%{ transform: translate(-5px,-1px); opacity: 0.8; }
+    96%{ transform: translate(2px,0); opacity: 0.8; }
+    98%{ opacity: 0; }
+  }
+
+  .hero-tagline{
+    max-width: 46ch;
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    color: #cfcdd6;
+    margin: 0 0 34px;
+  }
+
+  .cta-row{
+    display:flex; flex-wrap: wrap; gap: 16px;
+  }
+
+  .btn{
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px 26px;
+    display:inline-flex;
+    align-items:center;
+    gap: 10px;
+    border: 1px solid var(--static);
+    transition: transform .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease;
+    background: transparent;
+    color: var(--static);
+    cursor: pointer;
+  }
+  .btn.primary{
+    background: var(--hazard);
+    color: #0a0a0a;
+    border-color: var(--hazard);
+  }
+  .btn.primary:hover{
+    transform: translate(-2px,-2px);
+    box-shadow: 4px 4px 0 var(--pink);
+  }
+  .btn.ghost:hover{
+    transform: translate(-2px,-2px);
+    box-shadow: 4px 4px 0 var(--cyan);
+    background: var(--static);
+    color: #0a0a0a;
+  }
+
+  /* ---------- orbit visual ---------- */
+  .orbit-wrap{
+    position: relative;
+    z-index: 1;
+    display:flex; align-items:center; justify-content:center;
+    min-height: 380px;
+  }
+  .orbit-wrap svg{ width: 100%; max-width: 480px; height: auto; overflow: visible; }
+
+  .orbit-ring{ fill:none; stroke: var(--line); stroke-width:1; }
+  .orbit-ring.dash{ stroke-dasharray: 3 7; }
+  .orbit-ring.hz{ stroke: rgba(215,255,30,0.35); }
+  .orbit-ring.pk{ stroke: rgba(255,31,109,0.3); }
+
+  .core{ fill: var(--static); }
+  .core-glow{ fill: var(--hazard); opacity:0.25; filter: blur(6px); }
+
+  .sat{ fill: var(--hazard); }
+  .sat.pink{ fill: var(--pink); }
+  .sat.cyan{ fill: var(--cyan); }
+
+  .orbit-a{ animation: spin 14s linear infinite; transform-origin: 240px 190px; }
+  .orbit-b{ animation: spin 9s linear infinite reverse; transform-origin: 240px 190px; }
+  .orbit-c{ animation: spinJitter 6s linear infinite; transform-origin: 240px 190px; }
+
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+  @keyframes spinJitter{
+    0%{ transform: rotate(0deg); }
+    24%{ transform: rotate(90deg); }
+    25%{ transform: rotate(78deg); }
+    49%{ transform: rotate(180deg); }
+    51%{ transform: rotate(210deg); }
+    74%{ transform: rotate(270deg); }
+    76%{ transform: rotate(250deg); }
+    100%{ transform: rotate(360deg); }
+  }
+
+  /* ================= SECTION SHELL ================= */
+  section{
+    position: relative;
+    padding: 90px clamp(20px,5vw,64px);
+  }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap: 18px;
+    margin-bottom: 46px;
+    flex-wrap: wrap;
+  }
+  .section-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: #0a0a0a;
+    background: var(--hazard);
+    padding: 3px 9px;
+  }
+  .section-title{
+    font-family:'Anton', sans-serif;
+    text-transform: uppercase;
+    font-size: clamp(1.7rem, 3.6vw, 2.8rem);
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+
+  /* ================= LOG / BIO PANEL ================= */
+  .log-panel{
+    position: relative;
+    background: var(--void-2);
+    border: 1px solid var(--line);
+    padding: clamp(24px,4vw,52px);
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+  .log-panel::before, .log-panel::after,
+  .bracket-tl, .bracket-br{
+    content:"";
+    position:absolute;
+    width: 26px; height: 26px;
+  }
+  .log-panel::before{
+    top:-1px; left:-1px;
+    border-top: 2px solid var(--hazard);
+    border-left: 2px solid var(--hazard);
+  }
+  .log-panel::after{
+    bottom:-1px; right:-1px;
+    border-bottom: 2px solid var(--hazard);
+    border-right: 2px solid var(--hazard);
+  }
+
+  .log-entry .log-id{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--hazard);
+    letter-spacing: 0.1em;
+    display:block;
+    margin-bottom: 12px;
+  }
+  .log-entry p{
+    margin: 0;
+    color: #d6d4dc;
+    font-size: 1.05rem;
+  }
+  .log-entry + .log-entry{ margin-top: 30px; }
+
+  /* ================= MISS ERY PANEL ================= */
+  .duo{
+    display:grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 50px;
+    align-items:center;
+  }
+  .duo-visual{
+    position:relative;
+    border: 1px solid var(--line);
+    background: var(--void-2);
+    min-height: 320px;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .duo-visual .waveform{ width: 80%; }
+  .duo-visual::before{
+    content:"MISS ERY";
+    position:absolute;
+    font-family:'Anton', sans-serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,31,109,0.35);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .duo-copy .section-tag{ background: var(--pink); }
+  .duo-copy p{ color: #d6d4dc; font-size: 1.08rem; }
+  .duo-copy .quote{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--pink);
+    border-left: 2px solid var(--pink);
+    padding-left: 16px;
+    margin: 24px 0;
+  }
+
+  /* ================= LISTEN ================= */
+  .listen-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px;
+    margin-bottom: 40px;
+  }
+  .platform-card{
+    position: relative;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 26px 28px;
+    border: 1px solid var(--line);
+    background: var(--void-2);
+    text-decoration: none;
+    color: var(--static);
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .platform-card:hover{
+    border-color: var(--hazard);
+    background: var(--void-3);
+  }
+  .platform-name{
+    font-family:'Anton', sans-serif;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    letter-spacing: 0.01em;
+  }
+  .platform-sub{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+    display:block;
+    margin-top: 6px;
+  }
+  .switch{
+    width: 46px; height: 24px;
+    border: 1px solid var(--static);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .switch::before{
+    content:"";
+    position:absolute;
+    top: 3px; left: 3px;
+    width: 16px; height: 16px;
+    background: var(--hazard);
+    transition: transform .15s ease;
+  }
+  .platform-card:hover .switch::before{ transform: translateX(20px); }
+
+  .embed-wrap{
+    border: 1px solid var(--line);
+    background: var(--void-2);
+    padding: 6px;
+  }
+  .embed-wrap iframe{ display:block; width:100%; border:0; }
+
+  /* ================= VISUALIZER ================= */
+  .viz-bar-row{
+    display:flex;
+    align-items:flex-end;
+    gap: 6px;
+    height: 140px;
+    padding: 20px clamp(20px,5vw,64px);
+    background: var(--void-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .viz-bar-row span{
+    flex: 1;
+    background: linear-gradient(to top, var(--hazard), var(--pink));
+    animation: bounce 1.1s ease-in-out infinite;
+  }
+  @keyframes bounce{
+    0%, 100%{ height: 12%; }
+    50%{ height: 85%; }
+  }
+  .viz-caption{
+    text-align:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    padding: 14px 20px;
+    background: var(--void-2);
+  }
+
+  /* ================= FOOTER ================= */
+  footer{
+    padding: 60px clamp(20px,5vw,64px) 40px;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    border-top: 1px solid var(--line);
+  }
+  footer .foot-mark{
+    font-family:'Anton', sans-serif;
+    text-transform: uppercase;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+  }
+  footer .foot-links{
+    display:flex; flex-direction:column; gap: 10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    align-items: flex-end;
+    text-align: right;
+  }
+  footer .foot-links a{ text-decoration:none; color: var(--dim); }
+  footer .foot-links a:hover{ color: var(--hazard); }
+  .err-code{
+    grid-column: 1 / -1;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #55555c;
+    letter-spacing: 0.08em;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    margin-top: 10px;
+    display:flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 880px){
+    .hero{ grid-template-columns: 1fr; padding-top: 90px; }
+    .orbit-wrap{ min-height: 260px; order: -1; }
+    .log-panel{ grid-template-columns: 1fr; }
+    .duo{ grid-template-columns: 1fr; }
+    .duo-visual{ min-height: 220px; }
+    .listen-grid{ grid-template-columns: 1fr; }
+    nav.site-links{ display:none; }
+    footer{ grid-template-columns: 1fr; }
+    footer .foot-links{ align-items:flex-start; text-align:left; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- grain texture -->
+<svg class="grain" width="100%" height="100%">
+  <filter id="noiseFilter">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+  <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
+</svg>
+<div class="scanlines"></div>
+
+<header class="site">
+  <div class="brand-mark mono"><span class="dot"></span>ASTRO_INCOMPETENCE.SYS</div>
+  <nav class="site-links">
+    <a href="#log">Transmission</a>
+    <a href="#ery">Miss Ery</a>
+    <a href="#listen">Listen</a>
+    <a href="#end">Contact</a>
+  </nav>
+</header>
+
+<div class="hazard-strip">
+  <div class="track">
+    <span>SUPERNOVA COLLISION</span><span>//</span>
+    <span>SIGNAL DEGRADED</span><span>//</span>
+    <span>MAXIMUM SONIC DESTRUCTION</span><span>//</span>
+    <span>ZERO GRAVITY RIOT</span><span>//</span>
+    <span>RECALIBRATING</span><span>//</span>
+    <span>SUPERNOVA COLLISION</span><span>//</span>
+    <span>SIGNAL DEGRADED</span><span>//</span>
+    <span>MAXIMUM SONIC DESTRUCTION</span><span>//</span>
+    <span>ZERO GRAVITY RIOT</span><span>//</span>
+    <span>RECALIBRATING</span><span>//</span>
+  </div>
+</div>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <span class="coords tl mono">22.3193° N / 114.1694° E<br>HONG KONG GROUND STATION</span>
+  <span class="coords br mono">STATUS: TRANSMITTING<br>ORBIT: UNSTABLE (BY DESIGN)</span>
+
+  <div class="hero-copy">
+    <p class="eyebrow">Welcome to the glitch</p>
+    <h1 class="glitch-title" data-text="ASTRONOMICAL INCOMPETENCE">
+      <span class="line">ASTRONOMICAL</span>
+      <span class="line accent">INCOMPETENCE</span>
+    </h1>
+    <p class="hero-tagline">Hard dance, distorted dubstep and raw electronica out of Hong Kong — razor synths and crushing low end, engineered like a controlled detonation. Precision aimed at collapse.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="https://open.spotify.com/artist/25EVYobdvt55HlHZJ34Xch" target="_blank" rel="noopener">▶ Listen on Spotify</a>
+      <a class="btn ghost" href="#log">Read the transmission ↓</a>
+    </div>
+  </div>
+
+  <div class="orbit-wrap" aria-hidden="true">
+    <svg viewBox="0 0 480 380">
+      <ellipse class="orbit-ring dash hz orbit-a" cx="240" cy="190" rx="200" ry="90"/>
+      <ellipse class="orbit-ring pk orbit-b" cx="240" cy="190" rx="150" ry="150"/>
+      <ellipse class="orbit-ring dash orbit-c" cx="240" cy="190" rx="110" ry="60"/>
+      <circle class="core-glow" cx="240" cy="190" r="26"/>
+      <circle class="core" cx="240" cy="190" r="7"/>
+      <g class="orbit-a"><circle class="sat" cx="40" cy="190" r="5"/></g>
+      <g class="orbit-b"><circle class="sat pink" cx="90" cy="190" r="6"/></g>
+      <g class="orbit-c"><circle class="sat cyan" cx="130" cy="190" r="4"/></g>
+    </svg>
+  </div>
+</section>
+
+<div class="hazard-strip rev">
+  <div class="track">
+    <span>CYBERPUNK RIOT IN ZERO GRAVITY</span><span>//</span>
+    <span>CONTROLLED AGGRESSION</span><span>//</span>
+    <span>BONE-RATTLING DROPS</span><span>//</span>
+    <span>CHAOTIC BREAKDOWNS</span><span>//</span>
+    <span>CYBERPUNK RIOT IN ZERO GRAVITY</span><span>//</span>
+    <span>CONTROLLED AGGRESSION</span><span>//</span>
+    <span>BONE-RATTLING DROPS</span><span>//</span>
+    <span>CHAOTIC BREAKDOWNS</span><span>//</span>
+  </div>
+</div>
+
+<!-- ================= LOG / BIO ================= -->
+<section id="log">
+  <div class="section-head">
+    <span class="section-tag mono">FILE 01</span>
+    <h2 class="section-title">Transmission Log</h2>
+  </div>
+
+  <div class="log-panel">
+    <div class="log-entry">
+      <span class="log-id mono">LOG_ENTRY // ORIGIN</span>
+      <p>Hong Kong doesn't switch off, and neither does this project. Astronomical Incompetence is a Hong Kong-based producer building hard dance, distorted dubstep and raw electronica for rooms that want to lose control on purpose — razor-sharp synths, crushing basslines and glitch-torn sound design running on dystopian energy.</p>
+    </div>
+    <div class="log-entry">
+      <span class="log-id mono">LOG_ENTRY // TRAJECTORY</span>
+      <p>Every drop is engineered. Every breakdown is deliberately chaotic. The name is both the joke and the warning: astronomical precision pointed straight at collapse. Tracks land like a supernova compressed into four minutes — built for maximum sonic destruction, one bone-rattling drop at a time.</p>
+    </div>
+    <div class="log-entry">
+      <span class="log-id mono">LOG_ENTRY // GROUND STATION</span>
+      <p>Rooted in the neon-drenched streets of Hong Kong, the sound channels the city's relentless pulse into futuristic soundscapes of controlled aggression — dense, fast, and unapologetically loud.</p>
+    </div>
+    <div class="log-entry">
+      <span class="log-id mono">LOG_ENTRY // SIGNAL</span>
+      <p>If you're ready to lose control in the most precise way possible, this is your signal. Everything past this point is glitch by design.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MISS ERY ================= -->
+<section id="ery">
+  <div class="duo">
+    <div class="duo-visual" aria-hidden="true">
+      <svg class="waveform" viewBox="0 0 300 60" preserveAspectRatio="none">
+        <polyline points="0,30 10,10 20,45 30,20 40,50 50,8 60,32 70,44 80,14 90,30 100,6 110,40 120,26 130,50 140,12 150,30 160,44 170,18 180,36 190,8 200,30 210,46 220,20 230,34 240,10 250,40 260,28 270,50 280,16 290,30 300,24" fill="none" stroke="#ff1f6d" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="duo-copy">
+      <span class="section-tag mono">FILE 02</span>
+      <h2 class="section-title">Signal Partner // Miss Ery</h2>
+      <p>The high-octane collaborations run through vocalist Miss Ery, whose powerful, otherworldly voice slices through the chaos like a laser through neon fog.</p>
+      <p class="quote">"Together: anthems built to dominate dancefloors and late-night raves across the globe."</p>
+      <p>Where the production is engineered collapse, the vocal is the precision cut through it — every joint release aimed straight at the last hour of the night.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LISTEN ================= -->
+<section id="listen">
+  <div class="section-head">
+    <span class="section-tag mono">FILE 03</span>
+    <h2 class="section-title">Receive The Signal</h2>
+  </div>
+
+  <div class="listen-grid">
+    <a class="platform-card" href="https://open.spotify.com/artist/25EVYobdvt55HlHZJ34Xch" target="_blank" rel="noopener">
+      <span>
+        <span class="platform-name">Spotify</span>
+        <span class="platform-sub mono">STREAM // FOLLOW</span>
+      </span>
+      <span class="switch" aria-hidden="true"></span>
+    </a>
+    <a class="platform-card" href="https://music.apple.com/us/artist/astronomical-incompetence/1888499242" target="_blank" rel="noopener">
+      <span>
+        <span class="platform-name">Apple Music</span>
+        <span class="platform-sub mono">STREAM // FOLLOW</span>
+      </span>
+      <span class="switch" aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div class="embed-wrap">
+    <iframe title="Astronomical Incompetence on Spotify" src="https://open.spotify.com/embed/artist/25EVYobdvt55HlHZJ34Xch?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allowfullscreen loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+  </div>
+</section>
+
+<div class="viz-bar-row" aria-hidden="true">
+  <span style="animation-delay:0s"></span>
+  <span style="animation-delay:0.1s"></span>
+  <span style="animation-delay:0.05s"></span>
+  <span style="animation-delay:0.2s"></span>
+  <span style="animation-delay:0.15s"></span>
+  <span style="animation-delay:0.3s"></span>
+  <span style="animation-delay:0.02s"></span>
+  <span style="animation-delay:0.25s"></span>
+  <span style="animation-delay:0.12s"></span>
+  <span style="animation-delay:0.08s"></span>
+  <span style="animation-delay:0.22s"></span>
+  <span style="animation-delay:0.18s"></span>
+  <span style="animation-delay:0.04s"></span>
+  <span style="animation-delay:0.28s"></span>
+  <span style="animation-delay:0.1s"></span>
+  <span style="animation-delay:0.06s"></span>
+  <span style="animation-delay:0.24s"></span>
+  <span style="animation-delay:0.16s"></span>
+  <span style="animation-delay:0.02s"></span>
+  <span style="animation-delay:0.2s"></span>
+</div>
+<p class="viz-caption mono">SIGNAL WAVEFORM // AMBIENT READOUT</p>
+
+<!-- ================= FOOTER ================= -->
+<footer id="end">
+  <div>
+    <div class="foot-mark">ASTRONOMICAL<br>INCOMPETENCE</div>
+  </div>
+  <div class="foot-links">
+    <a href="https://open.spotify.com/artist/25EVYobdvt55HlHZJ34Xch" target="_blank" rel="noopener">Spotify ↗</a>
+    <a href="https://music.apple.com/us/artist/astronomical-incompetence/1888499242" target="_blank" rel="noopener">Apple Music ↗</a>
+    <a href="#log">Transmission Log</a>
+  </div>
+  <div class="err-code">
+    <span>ERR_2026 // TRANSMISSION UNSTABLE BY DESIGN</span>
+    <span>© 2026 ASTRONOMICAL INCOMPETENCE — ALL SIGNALS RESERVED</span>
+  </div>
+</footer>
+
+</body>
+</html>

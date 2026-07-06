@@ -435,6 +435,95 @@
     margin: 24px 0;
   }
 
+  /* ================= RELEASES ================= */
+  .release-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 26px;
+  }
+  .release-card{
+    position: relative;
+    background: var(--void-2);
+    border: 1px solid var(--line);
+    padding: clamp(20px,3vw,28px);
+  }
+  .release-card::before, .release-card::after{
+    content:"";
+    position:absolute;
+    width: 20px; height: 20px;
+  }
+  .release-card::before{
+    top:-1px; left:-1px;
+    border-top: 2px solid var(--cyan);
+    border-left: 2px solid var(--cyan);
+  }
+  .release-card::after{
+    bottom:-1px; right:-1px;
+    border-bottom: 2px solid var(--cyan);
+    border-right: 2px solid var(--cyan);
+  }
+  .release-head{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .release-title{
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    font-size: 1.35rem;
+    letter-spacing: 0.01em;
+    margin: 0;
+  }
+  .release-date{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .source-tabs{
+    display:flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .source-tab{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 8px 13px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--dim);
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .source-tab:hover{ color: var(--static); border-color: var(--static); }
+  .source-tab[aria-pressed="true"]{
+    background: var(--hazard);
+    color: #0a0a0a;
+    border-color: var(--hazard);
+  }
+  .source-tab[data-src="youtube"][aria-pressed="true"]{
+    background: var(--pink); border-color: var(--pink);
+  }
+  .source-tab[data-src="apple"][aria-pressed="true"]{
+    background: var(--cyan); border-color: var(--cyan);
+  }
+  .release-embed{ min-height: 60px; background: #1b1b1f; border-radius: 10px; overflow: hidden; }
+  .release-embed iframe{ display:block; width: 100%; }
+  .release-embed .embed-empty{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--dim);
+    padding: 30px 0;
+    text-align: center;
+    border: 1px dashed var(--line);
+  }
+
   /* ================= LISTEN ================= */
   .listen-grid{
     display:grid;
@@ -571,6 +660,7 @@
     .duo{ grid-template-columns: 1fr; }
     .duo-visual{ min-height: 220px; }
     .listen-grid{ grid-template-columns: 1fr; }
+    .release-grid{ grid-template-columns: 1fr; }
     nav.site-links{ display:none; }
     footer{ grid-template-columns: 1fr; }
     footer .foot-links{ align-items:flex-start; text-align:left; }
@@ -598,6 +688,7 @@
   <nav class="site-links">
     <a href="#log">Transmission</a>
     <a href="#ery">Miss Ery</a>
+    <a href="#releases">Releases</a>
     <a href="#listen">Listen</a>
     <a href="#end">Contact</a>
   </nav>
@@ -708,10 +799,19 @@
   </div>
 </section>
 
+<!-- ================= RELEASES ================= -->
+<section id="releases">
+  <div class="section-head">
+    <span class="section-tag mono">FILE 03</span>
+    <h2 class="section-title">Releases</h2>
+  </div>
+  <div id="releaseGrid" class="release-grid"><!-- rendered by JS from RELEASES table below --></div>
+</section>
+
 <!-- ================= LISTEN ================= -->
 <section id="listen">
   <div class="section-head">
-    <span class="section-tag mono">FILE 03</span>
+    <span class="section-tag mono">FILE 04</span>
     <h2 class="section-title">Receive The Signal</h2>
   </div>
 
@@ -777,5 +877,135 @@
   </div>
 </footer>
 
+<script>
+/* =========================================================================
+   RELEASES TABLE
+   Add one entry per release. Only IDs are needed — not full embed codes.
+
+   title    : release name shown on the card
+   date     : year or date shown next to the title (any short string)
+   spotify  : the album/track ID from a Spotify embed URL
+              e.g. open.spotify.com/embed/album/XXXXXXXX  ->  spotify: "XXXXXXXX"
+   apple    : the path after "embed.music.apple.com/" from an Apple Music
+              embed URL, e.g. embed.music.apple.com/us/album/struggle/12345
+              ->  apple: "us/album/struggle/12345"
+   youtube  : the video ID from a youtu.be link or /watch?v= URL
+              e.g. youtu.be/XXXXXXXXXXX  ->  youtube: "XXXXXXXXXXX"
+
+   Leave a field out (or set to "") if a release isn't on that platform —
+   its tab simply won't appear on the card.
+
+   appleHeight (optional): the Apple embed height in px. Defaults to 580,
+   which comfortably fits a short album with its full tracklist. Bump it
+   up for albums with more tracks so nothing gets cropped, e.g.
+   appleHeight: 660
+   ========================================================================= */
+const RELEASES = [
+    {
+      title: "Struggle",
+      date: "2025",
+      spotify: "0t86x9ys6hcuUTxqkujiKm",
+      apple: "us/album/struggle/1895507451",
+      youtube: "BDymFNmOj-M"
+    },
+    {
+      title: "Reward",
+      date: "2025",
+      spotify: "5OY79k2IlrxjrRQxmhKn9w",
+      apple: "us/album/reward-feat-miss-ery/1894008554",
+      youtube: "BDymFNmOj-M"
+    }
+   
+  ];
+
+  const PLATFORM_LABELS = { spotify: "Spotify", apple: "Apple Music", youtube: "YouTube" };
+
+  function buildEmbedNode(platform, release){
+    const iframe = document.createElement('iframe');
+    iframe.loading = 'lazy';
+    iframe.setAttribute('frameborder', '0');
+    iframe.title = `${release.title} — ${PLATFORM_LABELS[platform]}`;
+
+    if(platform === 'spotify'){
+      iframe.src = `https://open.spotify.com/embed/album/${release.spotify}?utm_source=generator`;
+      iframe.style.borderRadius = '12px';
+      iframe.width = '100%';
+      iframe.height = '352';
+      iframe.setAttribute('allow', 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture');
+      iframe.allowFullscreen = true;
+    } else if(platform === 'apple'){
+      const sep = release.apple.includes('?') ? '&' : '?';
+      iframe.src = `https://embed.music.apple.com/${release.apple}${sep}theme=dark`;
+      iframe.style.width = '100%';
+      iframe.style.overflow = 'hidden';
+      iframe.style.borderRadius = '10px';
+      iframe.style.background = '#1b1b1f';
+      iframe.height = String(release.appleHeight || 580);
+      iframe.setAttribute('sandbox', 'allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation');
+      iframe.setAttribute('allow', 'autoplay *; encrypted-media *; fullscreen *; clipboard-write');
+    } else if(platform === 'youtube'){
+      iframe.src = `https://www.youtube.com/embed/${release.youtube}`;
+      iframe.width = '100%';
+      iframe.height = '352';
+      iframe.style.borderRadius = '2px';
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      iframe.allowFullscreen = true;
+    }
+    return iframe;
+  }
+
+  function renderReleases(){
+    const grid = document.getElementById('releaseGrid');
+    if(!grid) return;
+
+    RELEASES.forEach((release, idx) => {
+      const available = ['apple', 'spotify', 'youtube'].filter(p => release[p]);
+      if(available.length === 0) return;
+
+      const card = document.createElement('article');
+      card.className = 'release-card';
+
+      const head = document.createElement('div');
+      head.className = 'release-head';
+      head.innerHTML = `<h3 class="release-title">${release.title}</h3><span class="release-date mono">${release.date || ''}</span>`;
+      card.appendChild(head);
+
+      const tabs = document.createElement('div');
+      tabs.className = 'source-tabs';
+      tabs.setAttribute('role', 'tablist');
+
+      const embedWrap = document.createElement('div');
+      embedWrap.className = 'release-embed';
+
+      const showPlatform = (platform) => {
+        embedWrap.innerHTML = '';
+        embedWrap.appendChild(buildEmbedNode(platform, release));
+        tabs.querySelectorAll('.source-tab').forEach(btn => {
+          btn.setAttribute('aria-pressed', btn.dataset.src === platform ? 'true' : 'false');
+        });
+      };
+
+      available.forEach((platform) => {
+        const btn = document.createElement('button');
+        btn.className = 'source-tab';
+        btn.type = 'button';
+        btn.dataset.src = platform;
+        btn.setAttribute('role', 'tab');
+        btn.setAttribute('aria-pressed', 'false');
+        btn.textContent = PLATFORM_LABELS[platform];
+        btn.addEventListener('click', () => showPlatform(platform));
+        tabs.appendChild(btn);
+      });
+
+      card.appendChild(tabs);
+      card.appendChild(embedWrap);
+      grid.appendChild(card);
+
+      showPlatform(available[0]);
+    });
+  }
+
+  renderReleases();
+</script>
 </body>
 </html>

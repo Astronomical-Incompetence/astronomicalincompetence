@@ -159,6 +159,10 @@
     align-items:center;
     padding: 40px clamp(20px,5vw,64px) 70px;
     gap: 20px;
+    background-image: url(title_background.jpg);
+    background-size: cover;
+    background-position: center;
+    border-bottom: 1px solid var(--line);
     overflow: hidden;
   }
   .hero::before{
@@ -350,8 +354,9 @@
   }
   .section-title{
     font-family:'Anton', sans-serif;
+    font-weight: 200;
     text-transform: uppercase;
-    font-size: clamp(1.7rem, 3.6vw, 2.8rem);
+    font-size: clamp(1.7rem, 3.0vw, 3rem);
     margin: 0;
     letter-spacing: 0.01em;
   }
@@ -727,7 +732,7 @@
     </div>
   </div>
 
-  <div class="orbit-wrap" aria-hidden="true">
+  <!-- <div class="orbit-wrap" aria-hidden="true">
     <svg viewBox="0 0 480 380">
       <ellipse class="orbit-ring dash hz orbit-a" cx="240" cy="190" rx="200" ry="90"/>
       <ellipse class="orbit-ring pk orbit-b" cx="240" cy="190" rx="150" ry="150"/>
@@ -738,7 +743,7 @@
       <g class="orbit-b"><circle class="sat pink" cx="90" cy="190" r="6"/></g>
       <g class="orbit-c"><circle class="sat cyan" cx="130" cy="190" r="4"/></g>
     </svg>
-  </div>
+  </div> -->
 </section>
 
 <div class="hazard-strip rev">
@@ -837,7 +842,7 @@
   </div>
 </section>
 
-<div class="viz-bar-row" aria-hidden="true">
+<!-- <div class="viz-bar-row" aria-hidden="true">
   <span style="animation-delay:0s"></span>
   <span style="animation-delay:0.1s"></span>
   <span style="animation-delay:0.05s"></span>
@@ -858,7 +863,7 @@
   <span style="animation-delay:0.16s"></span>
   <span style="animation-delay:0.02s"></span>
   <span style="animation-delay:0.2s"></span>
-</div>
+</div> -->
 <p class="viz-caption mono">SIGNAL WAVEFORM // AMBIENT READOUT</p>
 
 <!-- ================= FOOTER ================= -->
